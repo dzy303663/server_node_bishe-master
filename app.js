@@ -15,7 +15,7 @@ app.all('*', function (req, res, next) {
     // if (req.method == "OPTIONS") res.send(200);/*让options请求快速返回*/
     // else 
     next();
-    
+
 });
 // view engine setup
 app.use(express.static('./'));
@@ -45,7 +45,7 @@ console.log(__dirname);
 // });
 
 
-var mongoose = require('mongoose'); // 加载mongoose模块
+/* var mongoose = require('mongoose'); // 加载mongoose模块
 mongoose.connect('mongodb://localhost:27017/user', function (err) {
     if (err) {
         // 连接mongodb本地数据库imovie
@@ -54,7 +54,7 @@ mongoose.connect('mongodb://localhost:27017/user', function (err) {
         // 连接mongodb本地数据库imovie
         console.log('MongoDB connection success!');
     }
-});  
+}); */
 
 var port = process.env.PORT || 5200; // 设置端口号：3000
 var server = app.listen(port); // 监听 port[3000]端口
@@ -66,7 +66,7 @@ var users = {}
 var Message = require('./models/message.js')
 var HomeWork = require('./models/homework.js')
 
-io.on('connection', function (socket) {
+/* io.on('connection', function (socket) {
     console.log("有用户连接")
     //监听用户发布聊天内容
     socket.on('message', function (obj) {
@@ -109,9 +109,7 @@ io.on('connection', function (socket) {
         //用户监听用退出聊天室
         io.emit('logout', users)
     })
-})
-
-
+}) */
 
 
 
@@ -120,7 +118,7 @@ const control = require('./models/control.js');// 载入mongoose编译后的模�
 
 app.post('/login', function (req, res) {
     console.log(req.query);
-    user.findOne({account: req.query.account},function (err,doc) {
+    /* user.findOne({account: req.query.account},function (err,doc) {
         console.log(doc);
         if(err || doc==null){
            console.log(err);
@@ -135,12 +133,45 @@ app.post('/login', function (req, res) {
                 res.end("failed");
             }
         }
-    })
+    }) */
+    res.send({ "msg": "登录成功！", "data": { "email": "1012401749@163.com", "gender": "男", "isadmin": true, "jobid": 51, "password": "admin", "personid": 1, "realname": "章鱼xx", "telephone": "17786468646", "username": "Yang" }, "dept_id": 6, "organ_id": 2 })
 });
 
-app.get('/control',function (req,res) {
+app.get('/infoserver', function (req, res) {
     console.log(req);
-    control.findOne({index: 1},function (err,doc) {
+    /* control.findOne({ index: 1 }, function (err, doc) {
+        console.log(doc)
+        res.json(doc);
+        res.end();
+    }) */
+    res.send({
+        "result": [
+            { "hot": true, "infoname": "xxx院长", "inform_id": 15, "infotime": "2019-xx-xx   17:00:00", "infotitle": "山西省xx企业审核通过的通知", "keyword": "水平测试" },
+            { "hot": false, "infoname": "xxx院长", "inform_id": 135, "infotime": "2019-xx-xx   17:00:00", "infotitle": "山西省xx企业审核通过的通知", "keyword": "人才引进" }, { "hot": false, "infoname": "xxx院长", "inform_id": 134, "infotime": "2019-xx-xx   17:00:00", "infotitle": "在新时代党的阳光照耀下前进 ——习近平总书记关心关怀青年和青年工作纪实", "keyword": "习近平" },
+            { "hot": false, "infoname": "xxx院长", "inform_id": 133, "infotime": "2019-xx-xx   17:00:00", "infotitle": "山西省xx企业审核通过的通知", "keyword": "贺军科" }], "total": 8, "page": 1
+    })
+})
+
+app.get('/newserver', (req, res) => {
+    res.send({
+        "result": [
+            {
+                "createtime": "2019-xx-xx   00:02:57",
+                "hot": true, "news_id": 22,
+                "newsauthor": "xxx",
+                "newstitle": "请假模板下载"
+            },
+            {
+                "createtime": "2019-xx-xx   00:02:08", "hot": true, "keyword": "乌鲁木齐", "news_id": 32, "newsauthor": "xxx", "newstitle": "XX企业资质文件下载"
+            },
+            { "createtime": "2018-08-26   17:03:50", "hot": true, "keyword": "中央", "news_id": 30, "newsauthor": "xxx", "newstitle": "实习相关文件下载" }],
+            "total": 17, "page": 1
+    })
+})
+
+app.get('/control', function (req, res) {
+    console.log(req);
+    control.findOne({ index: 1 }, function (err, doc) {
         console.log(doc)
         res.json(doc);
         res.end();
@@ -148,9 +179,9 @@ app.get('/control',function (req,res) {
 })
 
 //修改亮度
-app.post('/control/light',function (req,res) {
+app.post('/control/light', function (req, res) {
     console.log(req.param);
-    control.update({index: 1},{"light.light_control": req.query.light_control},function (err,raw) {
+    control.update({ index: 1 }, { "light.light_control": req.query.light_control }, function (err, raw) {
         res.end('success');
     })
 })
@@ -164,8 +195,8 @@ app.post('/control/temp', function (req, res) {
 })
 
 //个人信息页面
-app.get('/personal',function (req,res) {
-    user.findOne({account: req.query.account},function (err,doc) {
+app.get('/personal', function (req, res) {
+    user.findOne({ account: req.query.account }, function (err, doc) {
         res.json(doc);
         res.end();
     })
@@ -176,10 +207,10 @@ app.post('/personal/update',function (req,res) {
     
 })
  */
-app.post('/download',function (req,res,next) {
+app.post('/download', function (req, res, next) {
     console.log("download")
     var currFile = path.join('./data', 'gaoshu.ppt'),
-    fReadStream;
+        fReadStream;
 
     fs.exists(currFile, function (exist) {
         if (exist) {
@@ -199,7 +230,7 @@ app.post('/download',function (req,res,next) {
         }
     });
 })
-app.get('/', function (req,res) {
+app.get('/', function (req, res) {
     console.log("/////////////////");
     res.end("success");
 })
