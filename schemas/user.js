@@ -1,19 +1,20 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
-    index: Number,
+    user_id: {type: Number},
     role: String,
     school: String,
-    class: String,
+    class: Number,
     account: Number,
     name: String,
     pw: String,
-    phone: String,
+    tel: String,
     sex: String,
     introduce: String,
-    question: String,
-    poster: String,
-    year: Number,
+    company: String,
+    position: String,
+    isPractice: {type: Boolean,default: false},
+    register: {type: Array,default: []}, 
     // meta 更新或录入数据的时间记录
     meta: {
         createAt: {
