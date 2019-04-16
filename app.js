@@ -70,6 +70,9 @@ var Message = require('./models/message.js')
 var HomeWork = require('./models/homework.js')
 
 const user = require('./models/user.js'); // 载入mongoose编译后的模型user
+const teacher = require('./models/teacher.js'); // 载入mongoose编译后的模型teacher
+const msg = require('./models/msg.js'); // 载入mongoose编译后的模型teacher
+const company = require('./models/company.js'); // 载入mongoose编译后的模型teacher
 const control = require('./models/control.js'); // 载入mongoose编译后的模型user
 /* user.create({
 	user_id: 1234,
@@ -84,6 +87,36 @@ const control = require('./models/control.js'); // 载入mongoose编译后的模
 	company: 'BAT',
 	position: '高级xxx开发'
 }, err => {}) */
+
+for (let i = 1; i <= 9; i++) {
+	company.create({
+		user_id: 190 + i,
+		role: '企业',
+		account: 190 + i,
+		name: '企业' + i + '号',
+		pw: '1234',
+		tel: '131xxxxx',
+		introduce: "我是" + i + "号企业，上市公司，规模万人以上",
+		company_link: "www.baidu.com",
+		open_offer: [{
+			name: '前端开发',
+			desc: '熟练vue angular node',
+			people: 5,
+			hasPeople: 1,
+			createTime: Date.now()
+		},
+		{
+			name: '后端开发',
+			desc: '熟练jave mysql',
+			people: 6,
+			hasPeople: 2,
+			createTime: Date.now()
+		}],
+		file: '我是一个文件'
+	}, err => {
+		console.log(err)
+	})
+};
 
 app.post('/login', function (req, res) {
 	let user_id = req.body.params.username;
