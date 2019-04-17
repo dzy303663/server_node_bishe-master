@@ -61,13 +61,8 @@ mongoose.connect('mongodb://localhost:27017/practiceManage', function (err) {
 
 var port = process.env.PORT || 5200; // 设置端口号：3000
 var server = app.listen(port); // 监听 port[3000]端口
-console.log('node_server start on port' + port);
 
 var io = require('socket.io')(server);
-
-var users = {}
-var Message = require('./models/message.js')
-var HomeWork = require('./models/homework.js')
 
 const user = require('./models/user.js'); // 载入mongoose编译后的模型user
 const teacher = require('./models/teacher.js'); // 载入mongoose编译后的模型teacher
@@ -87,70 +82,72 @@ const control = require('./models/control.js'); // 载入mongoose编译后的模
 	company: 'BAT',
 	position: '高级xxx开发'
 }, err => {}) */
-
-for (let i = 1; i <= 9; i++) {
-	company.create({
-		user_id: 190 + i,
-		role: '企业',
-		account: 190 + i,
-		name: '企业' + i + '号',
-		pw: '1234',
-		tel: '131xxxxx',
-		introduce: "我是" + i + "号企业，上市公司，规模万人以上",
-		company_link: "www.baidu.com",
-		open_offer: [{
-			name: '前端开发',
-			desc: '熟练vue angular node',
-			people: 5,
-			hasPeople: 1,
-			createTime: Date.now()
-		},
-		{
-			name: '后端开发',
-			desc: '熟练jave mysql',
-			people: 6,
-			hasPeople: 2,
-			createTime: Date.now()
-		}],
-		file: '我是一个文件'
-	}, err => {
-		console.log(err)
-	})
-};
+const initUser = require('./public/common/common.js'); // 载入mongoose编译后的模型user
+// initUser(company)
 
 app.post('/login', function (req, res) {
 	let user_id = req.body.params.username;
 	let pw = req.body.params.password;
 	let res_data;
-	user.findOne({
-		user_id: user_id
-	}, function (err, doc) {
-		console.log(err)
-		console.log('doc', doc);
-		if (err || doc == null) {
-			res_data = {
-				code: 201,
-				msg: "请正确检查用户名和密码",
-			}
-			res.send(res_data);
-		} else {
-			if (pw == doc.pw) {
+	let findUser = (entity) => {
+		entity.findOne({
+			user_id: user_id
+		}, function (err, doc) {
+			if (err || doc == null) {
 				res_data = {
-					code: 200,
-					msg: "登录成功！",
-					data: doc
+					code: 201,
+					msg: "请正确检查用户名和密码",
 				}
 				res.send(res_data);
 			} else {
-				res_data = {
-					code: 201,
-					msg: "密码错误",
+				if (pw == doc.pw) {
+					res_data = {
+						code: 200,
+						msg: "登录成功！",
+						data: doc
+					}
+					res.send(res_data);
+				} else {
+					res_data = {
+						code: 201,
+						msg: "密码错误",
+					}
+					res.send(res_data);
 				}
-				res.send(res_data);
 			}
-		}
-	})
+		})
+	}
+	console.log(user_id.length)
+	switch (user_id.length){
+		case 8: findUser(user);break;
+		case 4: findUser(user);break;
+		case 5: findUser(teacher);break;
+		case 3: findUser(company);break;
+		default: res.send('未找到')
+	}
 });
+
+app.get('/userInfo', function (req, res){
+	let user_id = req.query.user_id;
+	let res_data;
+
+	console.log(req.params)
+	console.log(req.query)
+
+	let findUser = (entity) => {
+		entity.findOne({user_id: user_id}, function (err, doc) {
+			res_data = doc
+			res.send(res_data);
+		})
+	}
+	switch (user_id.length){
+		case 8: findUser(user);break;
+		case 4: findUser(user);break;
+		case 5: findUser(teacher);break;
+		case 3: findUser(company);break;
+		default: res.send('未找到')
+	}
+})
 
 app.get('/infoserver', function (req, res) {
 	/* control.findOne({ index: 1 }, function (err, doc) {
