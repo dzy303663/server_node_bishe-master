@@ -68,22 +68,17 @@ const user = require('./models/user.js'); // 载入mongoose编译后的模型use
 const teacher = require('./models/teacher.js'); // 载入mongoose编译后的模型teacher
 const msg = require('./models/msg.js'); // 载入mongoose编译后的模型teacher
 const company = require('./models/company.js'); // 载入mongoose编译后的模型teacher
-const control = require('./models/control.js'); // 载入mongoose编译后的模型user
-/* user.create({
-	user_id: 1234,
-	role: '开发',
-	class: 1,
-	account: 1,
-	name: '章鱼哥',
-	pw: '1234',
-	tel: '131xxxxx',
-	sex: '女',
-	introduce: "开发",
-	company: 'BAT',
-	position: '高级xxx开发'
-}, err => {}) */
+const department = require('./models/department.js')//载入mongoose编译后的模型department
+
 const initUser = require('./public/common/common.js'); // 载入mongoose编译后的模型user
-// initUser(company)
+// initUser(department)
+
+app.use('/',require('./router/profile.js'))
+app.use('/',require('./router/company.js'))
+
+
+
+
 
 app.post('/login', function (req, res) {
 	let user_id = req.body.params.username;
@@ -126,28 +121,6 @@ app.post('/login', function (req, res) {
 		default: res.send('未找到')
 	}
 });
-
-app.get('/userInfo', function (req, res){
-	let user_id = req.query.user_id;
-	let res_data;
-
-	console.log(req.params)
-	console.log(req.query)
-
-	let findUser = (entity) => {
-		entity.findOne({user_id: user_id}, function (err, doc) {
-			res_data = doc
-			res.send(res_data);
-		})
-	}
-	switch (user_id.length){
-		case 8: findUser(user);break;
-		case 4: findUser(user);break;
-		case 5: findUser(teacher);break;
-		case 3: findUser(company);break;
-		default: res.send('未找到')
-	}
-})
 
 app.get('/infoserver', function (req, res) {
 	/* control.findOne({ index: 1 }, function (err, doc) {

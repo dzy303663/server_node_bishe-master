@@ -1,7 +1,7 @@
 module.exports  = (entity) => {
     console.log(entity)
-    for (let i = 11; i <= 11; i++) {
-        entity.create({
+    for (let i = 4; i <= 9; i++) {
+        /* entity.create({
             user_id: 190 + i,
             role: '企业',
             account: 190 + i,
@@ -27,6 +27,10 @@ module.exports  = (entity) => {
             file: '我是一个文件'
         }, err => {
             console.log(err)
+        }) */
+        entity.create({
+            depart_id: i,
+            name: i+'号系'
         })
     };
 }

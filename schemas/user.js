@@ -4,6 +4,7 @@ var userSchema = new Schema({
     user_id: {type: Number},//id
     role: String,//角色
     school: String,//学校
+    department: Number,//系
     class: Number,//班级
     account: Number,//账号
     name: String,//姓名
