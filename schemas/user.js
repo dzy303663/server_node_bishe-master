@@ -14,6 +14,7 @@ var userSchema = new Schema({
     introduce: String,//自我介绍
     company: String,//公司
     position: String,//岗位
+    resume: {type: Object, default: {}},//简历
     isPractice: {type: Boolean,default: false},//是否实习
     register: {type: Array,default: []}, //签到
     // meta 更新或录入数据的时间记录

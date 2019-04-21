@@ -31,7 +31,7 @@ router.get('/userInfo', function (req, res){
 
 router.post('/userInfo/update',(req,res) => {
 	let user_id = req.body.params.user_id;
-	let {tel,pw,introduce} = req.body.params
-	user.update({user_id},{tel: tel,pw: pw,introduce: introduce}).exec(res.send('操作成功'));
+	let {tel,pw,introduce,resume} = req.body.params
+	user.update({user_id},{tel: tel,pw: pw,introduce: introduce,resume}).exec(res.send('操作成功'));
 })
 module.exports = router
