@@ -3,7 +3,7 @@ var router = express.Router()
 var company=require('../models/company')
 
 router.get('/company',(req,res) => {
-	
+    console.log(req.cookies)
 	company.find({},(err, doc) => {
         console.log(doc)
         res.json(doc)

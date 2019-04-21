@@ -75,7 +75,7 @@ const initUser = require('./public/common/common.js'); // 载入mongoose编译�
 
 app.use('/',require('./router/profile.js'))
 app.use('/',require('./router/company.js'))
-
+app.use('/',require('./router/upload'))
 
 
 
@@ -101,6 +101,7 @@ app.post('/login', function (req, res) {
 						msg: "登录成功！",
 						data: doc
 					}
+					res.cookie('user_id', user_id);
 					res.send(res_data);
 				} else {
 					res_data = {
