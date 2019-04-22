@@ -4,6 +4,7 @@ var userSchema = new Schema({
     user_id: {type: Number},//id
     account: Number,//账号
     name: String,//公司名称
+    role: '企业',//角色
     pw: String,//密码
     tel: String,//电话
     introduce: String,//公司介绍
