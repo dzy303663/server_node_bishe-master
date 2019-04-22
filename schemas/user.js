@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
     user_id: {type: Number},//id
+    headImg: {type: String,default: '/api/upload/1555939395767-IMG_0617.JPG'},//头像
     role: String,//角色
     school: String,//学校
     department: Number,//系

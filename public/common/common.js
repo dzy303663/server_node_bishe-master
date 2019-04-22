@@ -1,6 +1,6 @@
 module.exports  = (entity) => {
     console.log(entity)
-    for (let i = 4; i <= 9; i++) {
+    for (let i = 1; i <= 9; i++) {
         /* entity.create({
             user_id: 190 + i,
             role: '企业',
@@ -29,8 +29,10 @@ module.exports  = (entity) => {
             console.log(err)
         }) */
         entity.create({
-            depart_id: i,
-            name: i+'号系'
+            name: '文件'+i+'号',
+            type: '系部文件',
+            createName: '计算机系',
+            path: '/api/upload/1555948806168-系部文件.docx'
         })
     };
 }

@@ -68,14 +68,16 @@ const user = require('./models/user.js'); // 载入mongoose编译后的模型use
 const teacher = require('./models/teacher.js'); // 载入mongoose编译后的模型teacher
 const msg = require('./models/msg.js'); // 载入mongoose编译后的模型teacher
 const company = require('./models/company.js'); // 载入mongoose编译后的模型teacher
-const department = require('./models/department.js')//载入mongoose编译后的模型department
+const department = require('./models/department.js') //载入mongoose编译后的模型department
+const document = require('./models/document.js') //载入mongoose编译后的模型department
 
 const initUser = require('./public/common/common.js'); // 载入mongoose编译后的模型user
-// initUser(department)
+// initUser(document)
 
-app.use('/',require('./router/profile.js'))
-app.use('/',require('./router/company.js'))
-app.use('/',require('./router/upload'))
+app.use('/', require('./router/profile.js'))
+app.use('/', require('./router/company.js'))
+app.use('/', require('./router/upload'))
+app.use('/', require('./router/document'))
 
 
 
@@ -114,15 +116,35 @@ app.post('/login', function (req, res) {
 		})
 	}
 	console.log(user_id.length)
-	switch (user_id.length){
-		case 8: findUser(user);break;
-		case 4: findUser(user);break;
-		case 5: findUser(teacher);break;
-		case 3: findUser(company);break;
-		default: res.send('未找到')
+	switch (user_id.length) {
+		case 8:
+			findUser(user);
+			break;
+		case 4:
+			findUser(user);
+			break;
+		case 5:
+			findUser(teacher);
+			break;
+		case 3:
+			findUser(company);
+			break;
+		default:
+			res.send('未找到')
 	}
 });
-
+app.post('/sign', (req, res) => {
+	console.log(req.cookies.user_id);
+	let user_id = req.cookies.user_id
+	let signTime = req.body.signTime;
+	user.findOne({
+		user_id
+	}, (err, doc) => {
+		doc.register.push(CurentTime(signTime));
+		doc.save();
+		res.send({msg: '签到成功'})
+	})
+})
 app.get('/infoserver', function (req, res) {
 	/* control.findOne({ index: 1 }, function (err, doc) {
 			console.log(doc)
@@ -197,3 +219,25 @@ app.get('/newserver', (req, res) => {
 		"page": 1
 	})
 })
+
+function CurentTime(time) {
+	var now = new Date(time);
+	var year = now.getFullYear(); //年
+	var month = now.getMonth() + 1; //月
+	var day = now.getDate(); //日
+	var hh = now.getHours(); //时
+	var mm = now.getMinutes(); //分
+	var clock = year + "-";
+	if (month < 10)
+		clock += "0";
+	clock += month + "-";
+	if (day < 10)
+		clock += "0";
+	clock += day + " ";
+	if (hh < 10)
+		clock += "0";
+	clock += hh + ":";
+	if (mm < 10) clock += '0';
+	clock += mm;
+	return (clock);
+}

@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
-    depart_id: {type: Number},//id
+    user_id: {type: Number},//id
+    headImg: {type: String,default: '/api/upload/1555939395767-IMG_0617.JPG'},//头像    
     name: String,//名称
     // meta 更新或录入数据的时间记录
     meta: {
