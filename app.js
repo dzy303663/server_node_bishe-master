@@ -79,6 +79,8 @@ app.use('/', require('./router/company.js'))
 app.use('/', require('./router/upload'))
 app.use('/', require('./router/document'))
 app.use('/', require('./router/askFor'))
+app.use('/', require('./router/report'))
+
 
 
 
