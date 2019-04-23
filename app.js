@@ -78,6 +78,8 @@ app.use('/', require('./router/profile.js'))
 app.use('/', require('./router/company.js'))
 app.use('/', require('./router/upload'))
 app.use('/', require('./router/document'))
+app.use('/', require('./router/askFor'))
+
 
 
 
@@ -143,6 +145,24 @@ app.post('/sign', (req, res) => {
 		doc.register.push(CurentTime(signTime));
 		doc.save();
 		res.send({msg: '签到成功'})
+	})
+})
+app.get('/user/checkin',(req,res) => {
+	let user_id = req.cookies.user_id;
+	let month = req.query.month;
+	console.log(month)
+	let res_data = [];
+	user.findOne({
+		user_id
+	}, (err, doc) => {
+		doc.register.map(item => {
+			console.log(item.substr(5,2),item.substr(8,2));
+			console.log(item.substr(5,2) == month)
+			if(item.substr(5,2)-0 == month){
+				res_data.push(item.substr(8,2)-0);
+			}
+		})
+		res.send({res_data: [...new Set(res_data)]})
 	})
 })
 app.get('/infoserver', function (req, res) {
