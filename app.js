@@ -81,6 +81,52 @@ app.use('/', require('./router/document'))
 app.use('/', require('./router/askFor'))
 app.use('/', require('./router/report'))
 
+var Message = require('./models/message.js')
+var HomeWork = require('./models/homework.js')
+
+io.on('connection', function (socket) {
+    console.log("有用户连接")
+    //监听用户发布聊天内容
+    socket.on('message', function (obj) {
+        //向所有客户端广播发布的消息
+        console.log(obj)
+        io.emit('message', obj)
+        var mess = {
+            username: obj.username,
+            msg: obj.msg,
+            name: obj.name
+        }
+       /*  var message = new Message(mess)
+        message.save(function (err, mess) {
+            if (err) {
+                console.log(err)
+            }
+            console.log(mess)
+        })
+        console.log(obj.name + '说：' + obj.msg) */
+    })
+
+    /* socket.on('homework', function(obj){
+        var mess = {
+            creatUser: obj.user,
+            title: obj.title,
+            content: obj.content,
+            class: obj.class
+        }
+        var homework = new HomeWork(mess);
+        homework.save(function(err, mess){
+            if(err){
+                console.log(err)
+            }
+            console.log('增加问题成功',mess);
+        })
+    }) */
+
+    socket.on('disconnect', function () {
+        //用户监听用退出聊天室
+    })
+})
+
 
 
 
