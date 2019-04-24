@@ -2,6 +2,8 @@ var express=require('express')
 var router = express.Router();
 var fs = require('fs');
 var multer  = require('multer');
+var document=require('../models/document')
+
 
 // 使用硬盘存储模式设置存放接收到的文件的路径以及文件名
 var storage = multer.diskStorage({
@@ -39,6 +41,7 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
     console.log('原始文件名：%s', file.originalname);
     console.log('文件大小：%s', file.size);
     console.log('文件保存路径：%s', file.path);
+    document.create({name:file.originalname,path: file.path})
     // 接收文件成功后返回数据给前端
     res.json({res_code: '0',path: '/api/'+file.path,name: file.originalname});
 });

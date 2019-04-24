@@ -11,8 +11,13 @@ var userSchema = new Schema({
     introduce: String,//公司介绍
     company_link: String,//公司链接
     open_offer: Array,//开放岗位
-    apply_list: {type: Array,default: []},//申请学生列表
-    file: String,//资质文件
+    apply_list: [{
+        selectedJob: String,
+        user: Object,
+        createdTime: String,
+        status: String
+    }],//申请学生列表
+    resume: {type: Object, default: {}},//资质文件
     // meta 更新或录入数据的时间记录
     meta: {
         createAt: {

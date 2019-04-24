@@ -10,14 +10,15 @@ router.get('/userInfo', function (req, res){
 	let findUser = (entity) => {
 		entity.findOne({user_id: user_id}, function (err, doc) {
 			res_data = JSON.parse(JSON.stringify(doc))
-			department.findOne({depart_id: 8},(err, {name})=>{
-				console.log('aa',name)
-				res_data.departName = name;
-				console.log('----------');
-				console.log(res_data)
-
+			if(res_data.depart_id){
+				department.findOne({depart_id: 8},(err, {name})=>{
+					res_data.departName = name;
+					res.send(res_data);
+				})
+			}else{
 				res.send(res_data);
-			})
+			}
+			
 		})
 	}
 	switch (user_id.length){
@@ -32,6 +33,16 @@ router.get('/userInfo', function (req, res){
 router.post('/userInfo/update',(req,res) => {
 	let user_id = req.body.params.user_id;
 	let {tel,pw,introduce,resume,headImg,name} = req.body.params
-	user.update({user_id},{tel: tel,pw: pw,introduce: introduce,resume,headImg,name}).exec(res.send('操作成功'));
+	let updateUser = function(entity){
+		entity.update({user_id},{...req.body.params}).exec(res.send('操作成功'));
+	}
+	console.log(user_id.length)
+	switch ((user_id+'').length){
+		case 8: updateUser(user);break;
+		case 4: updateUser(user);break;
+		case 5: updateUser(teacher);break;
+		case 3: updateUser(company);break;
+		default: res.send('未找到')
+	}
 })
 module.exports = router

@@ -80,6 +80,8 @@ app.use('/', require('./router/upload'))
 app.use('/', require('./router/document'))
 app.use('/', require('./router/askFor'))
 app.use('/', require('./router/report'))
+app.use('/', require('./router/deliver'))
+
 
 var Message = require('./models/message.js')
 var HomeWork = require('./models/homework.js')
@@ -204,8 +206,6 @@ app.get('/user/checkin',(req,res) => {
 		user_id
 	}, (err, doc) => {
 		doc.register.map(item => {
-			console.log(item.substr(5,2),item.substr(8,2));
-			console.log(item.substr(5,2) == month)
 			if(item.substr(5,2)-0 == month){
 				res_data.push(item.substr(8,2)-0);
 			}

@@ -4,7 +4,7 @@ var document=require('../models/document')
 
 router.get('/file/relative', function (req, res){
 	let res_data;
-	document.find({},(err,docs) => {
+	document.find().sort("-meta.createAt").exec((err,docs) => {
 		res.send(docs)
 	})
 })
