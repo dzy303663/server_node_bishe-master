@@ -1,6 +1,11 @@
 var express=require('express')
 var router = express.Router()
 var askFor=require('../models/askFor')
+var company=require('../models/company')
+var user=require('../models/user')
+
+
+
 
 router.get('/user/askfor', function (req, res){
 	let res_data;
@@ -17,6 +22,20 @@ router.get('/user/askfor/detail', function (req, res){
 	console.log(req.query)
 	askFor.findOne({_id},(err,doc) => {
 		res.send(doc)
+	})
+})
+
+router.get('/user/company', function (req, res){
+	let res_data;
+	let user_id = req.cookies.user_id;
+	company.findOne({user_id},(err,doc) => {
+		let stuList = doc.apply_list.map(item => {
+			return item.user.user_id;
+		})
+		stuList = [...new Set(stuList)];
+		askFor.find({ 'creator.user_id': { $in: [...stuList]}},(err,docs) => {
+			res.send(docs)
+		})
 	})
 })
 
