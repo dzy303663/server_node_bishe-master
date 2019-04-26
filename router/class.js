@@ -1,6 +1,8 @@
 var express=require('express')
 var router = express.Router()
-var company=require('../models/company')
+var teacher=require('../models/teacher.js')
+var user=require('../models/user.js')
+
 
 router.get('/company',(req,res) => {
     console.log(req.cookies)

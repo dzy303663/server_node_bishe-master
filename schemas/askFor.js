@@ -8,7 +8,7 @@ var userSchema = new Schema({
     content: String,//请假理由
     creator: Object,//上传人
     optionTime: String,//操作时间
-    optionUser: Object,//审核人
+    optionUser: String,//审核人
     status: String,//状态  审批中，已同意，不同意
     // meta 更新或录入数据的时间记录
     meta: {

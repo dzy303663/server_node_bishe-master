@@ -45,4 +45,11 @@ router.post('/user/askfor/add',(req,res) => {
 	let {title,startTime,endTime,content,creator} = req.body
 	askFor.create({user_id,title,startTime,endTime,content,creator,status:'审批中'}).exec(res.send('操作成功'));
 })
+
+router.post('/askfor/check',(req,res) => {
+	// let user_id = req.body.params.user_id;
+	let user_id = req.cookies.user_id;
+	let {_id,optionUser,optionTime,status} = req.body
+	askFor.update({_id},{optionUser,optionTime,status}).exec(res.send('操作成功'));
+})
 module.exports = router
