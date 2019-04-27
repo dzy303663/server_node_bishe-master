@@ -24,12 +24,14 @@ app.use(express.static('./'));
 app.use(express.static(__dirname + './data'));
 app.use(express.static(__dirname + './data/HLS-demo-master'));
 // app.use(logger('dev'));
+app.use(express.static('dist'));
+
 app.use(express.json());
 app.use(express.urlencoded({
 	extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, './public')));
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -61,8 +63,9 @@ mongoose.connect('mongodb://localhost:27017/practiceManage', function (err) {
 
 var port = process.env.PORT || 5200; // 设置端口号：3000
 var server = app.listen(port); // 监听 port[3000]端口
-
 var io = require('socket.io')(server);
+
+
 
 const user = require('./models/user.js'); // 载入mongoose编译后的模型user
 const teacher = require('./models/teacher.js'); // 载入mongoose编译后的模型teacher
@@ -72,7 +75,7 @@ const department = require('./models/department.js') //载入mongoose编译后�
 const document = require('./models/document.js') //载入mongoose编译后的模型department
 
 const initUser = require('./public/common/common.js'); // 载入mongoose编译后的模型user
-// initUser(document)
+// initUser(department)
 
 app.use('/', require('./router/profile.js'))
 app.use('/', require('./router/company.js'))
@@ -81,6 +84,8 @@ app.use('/', require('./router/document'))
 app.use('/', require('./router/askFor'))
 app.use('/', require('./router/report'))
 app.use('/', require('./router/deliver'))
+app.use('/', require('./router/class'))
+
 
 
 var Message = require('./models/message.js')
@@ -129,11 +134,6 @@ io.on('connection', function (socket) {
     })
 })
 
-
-
-
-
-
 app.post('/login', function (req, res) {
 	let user_id = req.body.params.username;
 	let pw = req.body.params.password;
@@ -173,7 +173,11 @@ app.post('/login', function (req, res) {
 			findUser(user);
 			break;
 		case 4:
-			findUser(user);
+		    if(user_id == 1234) {
+				findUser(user);
+			}else{
+				findUser(department);
+			}
 			break;
 		case 5:
 			findUser(teacher);

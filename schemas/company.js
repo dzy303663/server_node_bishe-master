@@ -10,7 +10,12 @@ var userSchema = new Schema({
     tel: String,//电话
     introduce: String,//公司介绍
     company_link: String,//公司链接
-    open_offer: Array,//开放岗位
+    open_offer: [
+        {name: String,
+        desc: String,
+        createTime: String,
+        people: String}
+    ],//开放岗位
     apply_list: [{
         selectedJob: String,
         user: Object,

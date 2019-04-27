@@ -1,6 +1,10 @@
 var express=require('express')
 var router = express.Router()
 var report=require('../models/report')
+var teacher=require('../models/teacher')
+var user=require('../models/user')
+var report=require('../models/report')
+
 
 router.get('/user/report', function (req, res){
 	let res_data;
@@ -25,5 +29,19 @@ router.post('/user/report/add',(req,res) => {
 	let user_id = req.cookies.user_id;
 	let {title,content,creator} = req.body
 	report.create({user_id,title,content,creator}).exec(res.send('操作成功'));
+})
+
+router.get('/user/report/teacher', function (req, res){
+	let res_data;
+	let user_id = req.cookies.user_id;	
+	let classIndex = (user_id+'').charAt(user_id.length-1);
+	let res_Data = [];
+	report.find({},(err,docs) => {
+		docs.map(item => {
+			console.log((item.user_id+'').charAt(4),classIndex)
+			if((item.user_id+'').charAt(5) == classIndex) res_Data.push(item)
+		})
+		res.send(res_Data)
+	})
 })
 module.exports = router

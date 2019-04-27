@@ -10,8 +10,8 @@ router.get('/userInfo', function (req, res){
 	let findUser = (entity) => {
 		entity.findOne({user_id: user_id}, function (err, doc) {
 			res_data = JSON.parse(JSON.stringify(doc))
-			if(res_data.depart_id){
-				department.findOne({depart_id: 8},(err, {name})=>{
+			if(res_data.department){
+				department.findOne({depart_id: res_data.department},(err, {name})=>{
 					res_data.departName = name;
 					res.send(res_data);
 				})
@@ -23,7 +23,13 @@ router.get('/userInfo', function (req, res){
 	}
 	switch (user_id.length){
 		case 8: findUser(user);break;
-		case 4: findUser(user);break;
+		case 4:
+		    if(user_id == 1234) {
+				findUser(user);
+			}else{
+				findUser(department);
+			}
+			break;
 		case 5: findUser(teacher);break;
 		case 3: findUser(company);break;
 		default: res.send('未找到')
@@ -39,7 +45,13 @@ router.post('/userInfo/update',(req,res) => {
 	console.log(user_id.length)
 	switch ((user_id+'').length){
 		case 8: updateUser(user);break;
-		case 4: updateUser(user);break;
+		case 4:
+		    if(user_id == 1234) {
+				updateUser(user);
+			}else{
+				updateUser(department);
+			}
+			break;
 		case 5: updateUser(teacher);break;
 		case 3: updateUser(company);break;
 		default: res.send('未找到')

@@ -3,6 +3,7 @@ var router = express.Router()
 var askFor=require('../models/askFor')
 var company=require('../models/company')
 var user=require('../models/user')
+var department=require('../models/department')
 
 
 
@@ -39,11 +40,30 @@ router.get('/user/company', function (req, res){
 	})
 })
 
+router.get('/department/askfor', function (req, res){
+	let res_data = [];
+	let user_id = req.cookies.user_id;
+	let depart_index = (user_id+'').charAt(user_id.length-1);
+	askFor.find({},(err,docs) => {
+		docs.map(item => {
+			if((item.user_id+'').charAt(3) == depart_index) res_data.push(item)
+		})
+		res.send(res_data)
+	})
+})
+
 router.post('/user/askfor/add',(req,res) => {
 	// let user_id = req.body.params.user_id;
 	let user_id = req.cookies.user_id;
 	let {title,startTime,endTime,content,creator} = req.body
 	askFor.create({user_id,title,startTime,endTime,content,creator,status:'审批中'}).exec(res.send('操作成功'));
+})
+
+router.post('/user/askfor/update',(req,res) => {
+	// let user_id = req.body.params.user_id;
+	let user_id = req.cookies.user_id;
+	let {title,startTime,endTime,content,_id} = req.body
+	askFor.update({_id},{title,startTime,endTime,content}).exec(res.send('操作成功'));
 })
 
 router.post('/askfor/check',(req,res) => {

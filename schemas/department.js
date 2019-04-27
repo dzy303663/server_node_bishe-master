@@ -4,6 +4,12 @@ var userSchema = new Schema({
     user_id: {type: Number},//id
     headImg: {type: String,default: '/api/upload/1555939395767-IMG_0617.JPG'},//头像    
     name: String,//名称
+    department: Number,//系号
+    role: String,
+    pw: String,
+    introduce: String,
+    tel: Number,
+    sex: String,
     // meta 更新或录入数据的时间记录
     meta: {
         createAt: {
