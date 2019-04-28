@@ -31,6 +31,13 @@ router.post('/user/report/add',(req,res) => {
 	report.create({user_id,title,content,creator}).exec(res.send('操作成功'));
 })
 
+router.post('/user/report/update',(req,res) => {
+	// let user_id = req.body.params.user_id;
+	let user_id = req.cookies.user_id;
+	let {_id,title,content,creator} = req.body
+	report.update({_id},{title,content,creator}).exec(res.send('操作成功'));
+})
+
 router.get('/user/report/teacher', function (req, res){
 	let res_data;
 	let user_id = req.cookies.user_id;	

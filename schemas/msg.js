@@ -1,10 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
+    user_id: Number,
     type: String,//类型
-    msg: String,//内容
-    creator: String,//创建人
+    content: String,//内容
+    creator: Object,//创建人
     title: String,//标题
+    resume: {type: Object, default: {}},//文件
     // meta 更新或录入数据的时间记录
     meta: {
         createAt: {

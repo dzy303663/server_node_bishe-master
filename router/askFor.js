@@ -48,6 +48,11 @@ router.get('/department/askfor', function (req, res){
 		docs.map(item => {
 			if((item.user_id+'').charAt(3) == depart_index) res_data.push(item)
 		})
+		res_data=res_data.map(item => {
+			if((new Date(item.endTime).getTime()-new Date(item.startTime).getTime()) > 259200000){
+				return item
+			}
+		})
 		res.send(res_data)
 	})
 })

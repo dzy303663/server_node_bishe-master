@@ -85,6 +85,8 @@ app.use('/', require('./router/askFor'))
 app.use('/', require('./router/report'))
 app.use('/', require('./router/deliver'))
 app.use('/', require('./router/class'))
+app.use('/', require('./router/announcement'))
+
 
 
 
@@ -134,6 +136,14 @@ io.on('connection', function (socket) {
     })
 })
 
+app.all('/*', (req,res,next) => {
+	let user_id = req.cookies.user_id
+	if(user_id == undefined && req.path != '/login'){
+		res.send({code: 401});
+	}else{
+		next();
+	}
+})
 app.post('/login', function (req, res) {
 	let user_id = req.body.params.username;
 	let pw = req.body.params.password;
@@ -209,6 +219,8 @@ app.get('/user/checkin',(req,res) => {
 	user.findOne({
 		user_id
 	}, (err, doc) => {
+		console.log(user_id)
+		console.log(doc)
 		doc.register.map(item => {
 			if(item.substr(5,2)-0 == month){
 				res_data.push(item.substr(8,2)-0);
