@@ -23,6 +23,7 @@ var userSchema = new Schema({
         status: String
     }],//申请学生列表
     resume: {type: Object, default: {}},//资质文件
+    file: String,
     // meta 更新或录入数据的时间记录
     meta: {
         createAt: {

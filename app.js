@@ -73,9 +73,10 @@ const msg = require('./models/msg.js'); // 载入mongoose编译后的模型teach
 const company = require('./models/company.js'); // 载入mongoose编译后的模型teacher
 const department = require('./models/department.js') //载入mongoose编译后的模型department
 const document = require('./models/document.js') //载入mongoose编译后的模型department
+const admin = require('./models/admin.js'); // 载入mongoose编译后的模型user
 
 const initUser = require('./public/common/common.js'); // 载入mongoose编译后的模型user
-// initUser(department)
+initUser(admin)
 
 app.use('/', require('./router/profile.js'))
 app.use('/', require('./router/company.js'))
@@ -194,6 +195,9 @@ app.post('/login', function (req, res) {
 			break;
 		case 3:
 			findUser(company);
+			break;
+		case 1:
+			findUser(admin);
 			break;
 		default:
 			res.send('未找到')

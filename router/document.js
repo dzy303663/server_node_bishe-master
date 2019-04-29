@@ -9,9 +9,13 @@ router.get('/file/relative', function (req, res){
 	})
 })
 
-router.post('/userInfo/update',(req,res) => {
+router.delete('/file/del',(req,res) => {
+	console.log(req.body)
+	document.remove({_id:req.body._id}).exec(res.send('删除成功'))
+})
+/* router.post('/userInfo/update',(req,res) => {
 	let user_id = req.body.params.user_id;
 	let {tel,pw,introduce,resume,headImg,name} = req.body.params
 	user.update({user_id},{tel: tel,pw: pw,introduce: introduce,resume,headImg,name}).exec(res.send('操作成功'));
-})
+}) */
 module.exports = router

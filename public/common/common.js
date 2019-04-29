@@ -1,6 +1,6 @@
 module.exports  = (entity) => {
     console.log(entity)
-    for (let i = 4; i <= 9; i++) {
+    for (let i = 4; i <= 4; i++) {
         /* entity.create({
             user_id: 190 + i,
             role: '企业',
@@ -29,11 +29,15 @@ module.exports  = (entity) => {
             console.log(err)
         }) */
         entity.create({
-            user_id: 150+''+i,
-            name: '计算机系',
-            depart_id: i,
-            role: '系管理员',
+            user_id: 1,
+            account: 1,
+            name: '校管理员',
+            tel: 123123123,
+            sex: '你猜',
+            introduce: '我是你们得校长',
+            role: '校管理员',
             pw: 1234,
+            headImg: '/api'
         })
     };
 }

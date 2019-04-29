@@ -4,6 +4,8 @@ var user=require('../models/user')
 var teacher=require('../models/teacher')
 var company=require('../models/company')
 var department = require('../models/department')
+var admin = require('../models/admin')
+
 router.get('/userInfo', function (req, res){
 	let user_id = req.query.user_id;
 	let res_data;
@@ -32,6 +34,7 @@ router.get('/userInfo', function (req, res){
 			break;
 		case 5: findUser(teacher);break;
 		case 3: findUser(company);break;
+		case 1: findUser(admin);break;
 		default: res.send('未找到')
 	}
 })
@@ -54,6 +57,8 @@ router.post('/userInfo/update',(req,res) => {
 			break;
 		case 5: updateUser(teacher);break;
 		case 3: updateUser(company);break;
+		case 1: updateUser(admin);break;
+
 		default: res.send('未找到')
 	}
 })
